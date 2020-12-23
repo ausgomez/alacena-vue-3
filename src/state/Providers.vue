@@ -8,7 +8,7 @@ import { SupabaseService } from "../services/supabase"
 
 export default {
   setup() {
-    console.log("State triggered")
+    console.log("State triggered!!")
 
     const state = reactive({
       user: null,

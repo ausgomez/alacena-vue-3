@@ -27,37 +27,43 @@
 </template>
 <script>
 import UserAuthForm from "@/components/UserAuthForm.vue"
+import { inject, ref } from "vue"
 import { SupabaseService } from "../services/supabase"
 export default {
   auth: false,
   components: {
     UserAuthForm,
   },
-  data() {
-    return {
-      error: "",
-    }
-  },
-  methods: {
-    async login(email, password, provider) {
-      this.error = ""
+
+  setup() {
+    const state = inject("state")
+
+    const error = ref("")
+
+    const login = async (email, password, provider) => {
       var response = await SupabaseService.login({
         email,
         password,
         provider,
-      }).then(() => {
-        alert("login success")
       })
+        .then((res) => {
+          state.user = res.user
+        })
+        .catch((err) => alert(err))
 
-      this.error = response?.error?.message
+      error.value = response?.error?.message
       console.log(response)
-    },
-    async loginWithEmail(args) {
-      return await this.login(args.email, args.password, null)
-    },
-    async loginWithProvider(provider) {
-      return await this.login(null, null, provider).then(alert("Logged in with provider"))
-    },
+    }
+
+    const loginWithEmail = async (args) => {
+      return await login(args.email, args.password, null)
+    }
+
+    const loginWithProvider = async (provider) => {
+      return await login(null, null, provider).then(alert("Logged in with provider"))
+    }
+
+    return { state, login, loginWithEmail, loginWithProvider, error }
   },
 }
 </script>

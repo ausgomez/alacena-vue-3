@@ -10,6 +10,10 @@ export default {
   setup() {
     const state = inject("state")
 
+    // const click = () => {
+    //   state.user = { email: "whatever@gmail.com" }
+    // }
+
     return { state }
   },
 }
