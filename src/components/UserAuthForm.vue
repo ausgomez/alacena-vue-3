@@ -5,11 +5,7 @@
         <h2 class="block w-full text-2xl font-semibold">Sign In</h2>
       </section>
       <label class="block my-2">
-        <input
-          class="form-input mt-1 block w-full"
-          v-model="userInfo.email"
-          placeholder="name@example.com"
-        />
+        <input class="form-input mt-1 block w-full" v-model="userInfo.email" placeholder="name@example.com" />
       </label>
       <label class="block my-2">
         <input
@@ -40,20 +36,16 @@ export default {
   }),
   computed: {
     validEmail() {
-      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-        this.userInfo.email
-      );
+      // return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.userInfo.email)
+      return /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,3})+$/.test(this.userInfo.email)
     },
     valid() {
-      return (
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-          this.userInfo.email
-        ) && this.userInfo.password !== ""
-      );
+      // return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.userInfo.email) && this.userInfo.password !== ""
+      return /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,3})+$/.test(this.userInfo.email) && this.userInfo.password !== ""
     },
   },
   props: ["submitForm", "buttonText"],
-};
+}
 </script>
 <style scoped>
 .form-input {

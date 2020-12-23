@@ -24,6 +24,7 @@ export const SupabaseService = {
       })
       .then((response) => {
         if (response?.user) {
+          console.log(response) // <--
         }
 
         console.log(response.user);
