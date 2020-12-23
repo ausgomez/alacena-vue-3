@@ -1,6 +1,6 @@
 <template>
   <h1>Hello</h1>
-  <p>{{ state.user }}</p>
+  <p>{{ state }}</p>
 </template>
 
 <script>

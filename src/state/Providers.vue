@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { reactive, provide, watch, onBeforeMount } from "vue"
+import { reactive, provide, watch, onMounted } from "vue"
 import { SupabaseService } from "../services/supabase"
 
 export default {
@@ -14,15 +14,14 @@ export default {
       user: null,
     })
 
-    onBeforeMount(() => {
-      console.log("Mounted")
-      state.user = SupabaseService.getCurrentUser()
-      console.log(state.user)
+    onMounted(async () => {
+      console.log("mounted")
+      state.user = reactive(SupabaseService.getCurrentUser())
     })
 
     provide("state", state)
 
-    watch(state, (user) => alert(`User changed ${user}`))
+    watch(state, (user) => console.log(`User changed ${user}`))
   },
 }
 </script>
