@@ -1,8 +1,9 @@
 <template>
   <div>
-    <form id="loginForm" class="block m-4" style="max-width: 300px">
+    <form id="loginForm" class="block m-4" style="max-width: 300px" @submit.prevent="onSubmit">
       <section class="my-4 text-center">
         <h2 class="block w-full text-2xl font-semibold">Sign In</h2>
+        <div class=" text-red my-2">{{ userStore.state.error }}</div>
       </section>
       <label class="block my-2">
         <input class="form-input mt-1 block w-full" v-model="userInfo.email" placeholder="name@example.com" />
@@ -26,6 +27,9 @@
   </div>
 </template>
 <script>
+import { reactive } from 'vue';
+import userStore from '@/stores/auth';
+
 export default {
   name: "UserAuthForm",
   data: () => ({
@@ -34,17 +38,21 @@ export default {
       password: "",
     },
   }),
-  computed: {
-    validEmail() {
-      // return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.userInfo.email)
-      return /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,3})+$/.test(this.userInfo.email)
-    },
-    valid() {
-      // return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.userInfo.email) && this.userInfo.password !== ""
-      return /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,3})+$/.test(this.userInfo.email) && this.userInfo.password !== ""
-    },
-  },
-  props: ["submitForm", "buttonText"],
+  setup() {
+    const form = reactive({
+      email: '',
+      password: '',
+      provider: null
+    });
+
+    const onSubmit = () => {
+      userStore.login(form);
+      form.email = '';
+      form.password = '';
+    }
+
+    return { form, onSubmit, userStore }
+  }
 }
 </script>
 <style scoped>

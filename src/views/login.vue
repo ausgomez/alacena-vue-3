@@ -27,8 +27,7 @@
 </template>
 <script>
 import UserAuthForm from "@/components/UserAuthForm.vue"
-import { inject, ref } from "vue"
-import { SupabaseService } from "../services/supabase"
+import userStore from '@/stores/auth';
 export default {
   auth: false,
   components: {
@@ -36,34 +35,12 @@ export default {
   },
 
   setup() {
-    const state = inject("state")
-
-    const error = ref("")
-
-    const login = async (email, password, provider) => {
-      var response = await SupabaseService.login({
-        email,
-        password,
-        provider,
-      })
-        .then((res) => {
-          state.user = res.user
-        })
-        .catch((err) => alert(err))
-
-      error.value = response?.error?.message
-      console.log(response)
-    }
-
-    const loginWithEmail = async (args) => {
-      return await login(args.email, args.password, null)
-    }
-
     const loginWithProvider = async (provider) => {
-      return await login(null, null, provider).then(alert("Logged in with provider"))
+     const payload = {email: null, password: null, provider}
+      return userStore.login(payload);
     }
 
-    return { state, login, loginWithEmail, loginWithProvider, error }
+    return { loginWithProvider, userStore }
   },
 }
 </script>

@@ -1,34 +1,25 @@
 <template>
-  <Providers>
+  <div>
     <Navbar />
     <div class="container mx-auto min-h-screen">
       <router-view />
     </div>
-  </Providers>
+  </div>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar"
-// import { inject, reactive } from "vue"
-import Providers from "@/state/Providers"
-// import { SupabaseService } from "@/services/supabase"
+import userStore from '@/stores/auth';
+import { onMounted } from 'vue'
 
 export default {
   name: "App",
   components: {
-    Navbar,
-    Providers,
+    Navbar
   },
   setup() {
-    alert("App reloaded")
-    // const state = inject("state")
-
-    // onMounted(() => {
-    //   // fetch current user and set it to state
-    //   // state.user = SupabaseService.getSession().user
-    //   const user = SupabaseService.getSession().user
-    //   console.log(user)
-    // })
+    onMounted(() => userStore.getUser);
+    return {userStore};
   },
 }
 </script>
