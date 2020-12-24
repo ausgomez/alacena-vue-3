@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <Navbar />
-    <div class="container mx-auto min-h-screen">
+  <div class="relative">
+    <Navbar class="relative" style="z-index:1000"/>
+    <div class="container mx-auto min-h-screen relative">
       <router-view />
     </div>
   </div>
