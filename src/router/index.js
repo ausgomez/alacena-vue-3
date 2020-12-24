@@ -11,7 +11,7 @@ const routes = [
     component: Home,
     meta: {
       requiresAuth: true
-  }
+    }
   },
   {
     path: "/about",
@@ -24,7 +24,11 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
+    beforeEnter(to, from, next) {
+      if(userStore.getters.isLoggedIn) next('/')
+      else next();
+    }
   }
 ];
 

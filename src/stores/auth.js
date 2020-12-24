@@ -1,5 +1,6 @@
 import { computed, reactive } from 'vue';
 import { AuthService } from '../services/auth';
+import router from '../router';
 
 
 const state = reactive({
@@ -15,9 +16,10 @@ const getters = reactive({
 const actions = {
     getUser() {
         state.isBusy = true;
-        const user = AuthService.getCurrentUser(); 
+        const user = AuthService.getSession().user; 
         if(user == null) {
-            state.error = 'No user currently logged in.';
+            state.error = '';
+            state.isBusy = false;
             return;
         }
 
@@ -30,7 +32,6 @@ const actions = {
             state.isBusy = true;
             state.error = '';
             const response = await AuthService.login(args);
-
             if(response?.error) {
                 state.error = response.error.message;
                 state.isBusy = false;
@@ -41,6 +42,7 @@ const actions = {
                 state.user = response.user;
                 state.error = '';
                 state.isBusy = false;
+                router.push('/');
                 return;
             }
         } catch (e) {
@@ -54,7 +56,7 @@ const actions = {
     async logout() {
         state.isBusy = true;
         state.error = '';
-        state.user = {};
+        state.user = null;
 
         const {error} = await AuthService.logout();
 
@@ -62,8 +64,9 @@ const actions = {
             state.error = error;
         }
 
+        router.push('/');
         return;
     }
 }
 
-export default { state, getters, actions };
+export default { state, getters, ...actions };

@@ -18,7 +18,7 @@ export default {
     Navbar
   },
   setup() {
-    onMounted(() => userStore.getUser);
+    onMounted(() => userStore.getUser());
     return {userStore};
   },
 }

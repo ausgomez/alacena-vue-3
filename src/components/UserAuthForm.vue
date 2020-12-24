@@ -6,20 +6,19 @@
         <div class=" text-red my-2">{{ userStore.state.error }}</div>
       </section>
       <label class="block my-2">
-        <input class="form-input mt-1 block w-full" v-model="userInfo.email" placeholder="name@example.com" />
+        <input class="form-input mt-1 block w-full" v-model="form.email" placeholder="name@example.com" />
       </label>
       <label class="block my-2">
         <input
           class="form-input mt-1 block w-full"
-          v-model="userInfo.password"
+          v-model="form.password"
           type="password"
           placeholder="*********"
         />
       </label>
       <button
         class="mt-4 bg-gray-700 w-full block text-white py-2 hover:bg-gray-800"
-        @click="submitForm(userInfo)"
-        type="button"
+        type="submit"
       >
         Sign In
       </button>
@@ -32,12 +31,6 @@ import userStore from '@/stores/auth';
 
 export default {
   name: "UserAuthForm",
-  data: () => ({
-    userInfo: {
-      email: "",
-      password: "",
-    },
-  }),
   setup() {
     const form = reactive({
       email: '',
@@ -45,8 +38,8 @@ export default {
       provider: null
     });
 
-    const onSubmit = () => {
-      userStore.login(form);
+    const onSubmit = async () => {
+      await userStore.login(form);
       form.email = '';
       form.password = '';
     }
