@@ -86,7 +86,7 @@ export default {
       name: { required, minLength: minLength(5) },
       email: { required, email },
       password: { required, minLength: minLength(6) },
-      confirmPassword: { required, sameAs: sameAs('password') },
+      confirmPassword: { required, sameAsPassword: sameAs(function(){return form.password }) },
     };
 
     const model = useVuelidate(rules, form);
