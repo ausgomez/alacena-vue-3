@@ -39,8 +39,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if(!userStore.getters.isLoggedIn && requiresAuth) next('login')
-  else next();
+  if(!userStore.getters.isLoggedIn && requiresAuth) {
+    next({ path: '/login', query: { redirect: to.fullPath } })
+  } else {
+    next();
+  }
 });
 
 export default router;

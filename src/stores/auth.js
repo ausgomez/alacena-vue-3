@@ -9,7 +9,8 @@ const state = reactive({
 });
 
 const getters = reactive({
-  isLoggedIn: computed(() => !!state.user)
+  isLoggedIn: computed(() => !!state.user),
+  providersEnabled: computed(() => process.env.VUE_APP_ENABLE_PROVIDERLOGIN)
 });
 
 const actions = {
@@ -36,7 +37,7 @@ const actions = {
           state.error = response.error.message;
           state.isBusy = false;
           state.user = null;
-          return;
+          return response.data;
         }
 
         if (response?.user) {
@@ -44,7 +45,7 @@ const actions = {
           state.error = "";
           state.isBusy = false;
           router.push("/");
-          return;
+          return response.data;
         }
       })
       .catch(() => {

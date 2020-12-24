@@ -30,7 +30,8 @@ export default {
   setup() {
     const loginWithProvider = async (provider) => {
       const payload = { email: null, password: null, provider };
-      return userStore.login(payload);
+      const data = userStore.login(payload);
+      console.log(data);
     };
 
     return { userStore, loginWithProvider };

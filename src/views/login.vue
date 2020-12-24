@@ -2,16 +2,16 @@
   <div class="block relative login-page mx-2">
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 justify-between relative bg-white p-8 form-container shadow-xl" style="z-index: 1; opacity: 0.95">
       <!-- FORM -->
-      <div class="flex flex-col flex-1 ">
+      <div class="flex flex-col flex-1" v-bind:class="{'col-span-2': !userStore.getters.providersEnabled}">
         <span v-if="error !== ''" class="error-message">{{ error }}</span>
         <UserAuthForm buttonText="Log In" :submitForm="loginWithEmail" />
         <a href="/register" class="text-center mt-4 underline pointer">Don't have an account?</a>
       </div>
 
       <!-- OPTIONS BUTTONS -->
-      <div class="inline-flex justify-center items-center w-full space-x-4 mt-4 md:space-x-0 lg:space-x-0 md:block lg:block">
-        <SocialLoginButton :provider="'github'" />
-        <SocialLoginButton :provider="'google'" />
+      <div v-if="providerLogin" class="inline-flex md:flex lg:flex md:flex-col lg:flex-col justify-center items-center w-full space-x-4 mt-4 md:space-x-0 lg:space-x-0 md:block lg:block">
+        <SocialLoginButton :provider="'github'" class="md:w-full lg:w-full"/>
+        <SocialLoginButton :provider="'google'" class="md:w-full lg:w-full"/>
       </div>
     </div>
     <div class="absolute right-0 bottom-0 flex justify-end" style="z-index: -2">
@@ -31,6 +31,7 @@ export default {
   },
 
   setup() {
+    console.log(userStore.getters.providersEnabled)
     const loginWithProvider = async (provider) => {
      const payload = {email: null, password: null, provider}
       return userStore.login(payload);
