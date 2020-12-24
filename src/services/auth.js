@@ -2,7 +2,7 @@ import { supabase } from "./initSupabase";
 
 export const AuthService = {
   getSession() {
-    return JSON.parse(localStorage.getItem('supabase.auth.token')).currentSession;
+    return JSON.parse(localStorage.getItem('supabase.auth.token'))?.currentSession;
   },
 
   getCurrentUser() {
@@ -21,9 +21,6 @@ export const AuthService = {
         email,
         password,
         provider
-      })
-      .then((response) => {
-        return response.data;
       });
   },
 
