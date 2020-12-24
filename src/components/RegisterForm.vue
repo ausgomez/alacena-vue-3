@@ -32,6 +32,7 @@
         <label class="block my-2">
           <span class="">Password</span>
           <input
+            type="password"
             class="form-input mt-1 block w-full"
             v-model="model.password.$model"
             placeholder="********"
@@ -41,6 +42,7 @@
         <label class="block my-2">
           <span class="">Confirm Password</span>
           <input
+            type="password"
             class="form-input mt-1 block w-full"
             v-model="model.confirmPassword.$model"
             placeholder="********"
@@ -64,7 +66,7 @@
 <script>
 import { reactive } from "vue";
 import userStore from "@/stores/auth";
-import { required, minLength, email, sameAs } from "@vuelidate/validators";
+import { required, minLength, email } from "@vuelidate/validators";
 import useVuelidate from '@vuelidate/core';
 import ErrorSpan from '@/components/ErrorSpan';
 
@@ -86,23 +88,24 @@ export default {
       name: { required, minLength: minLength(5) },
       email: { required, email },
       password: { required, minLength: minLength(6) },
-      confirmPassword: { required, sameAsPassword: sameAs(function(){return form.password }) },
+      confirmPassword: { required },
     };
 
     const model = useVuelidate(rules, form);
 
     const resetForm = () => {
-      form.email = "";
-      form.password = "";
-      form.confirmPassword = "";
+      form.email = null;
+      form.password = null;
+      form.confirmPassword = null;
+      form.name = null;
     };
 
     const onSubmit = async () => {
       model.value.$validate();
-      if(model.$invalid) {
-        console.log(form);
+      if(!model.$invalid) {
         await userStore.register(form);
         resetForm();
+        model.$reset()
       }
     };
 

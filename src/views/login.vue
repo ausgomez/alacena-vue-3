@@ -9,7 +9,7 @@
       </div>
 
       <!-- OPTIONS BUTTONS -->
-      <div v-if="providerLogin" class="inline-flex md:flex lg:flex md:flex-col lg:flex-col justify-center items-center w-full space-x-4 mt-4 md:space-x-0 lg:space-x-0 md:block lg:block">
+      <div v-if="userStore.getters.providersEnabled" class="inline-flex md:flex lg:flex md:flex-col lg:flex-col justify-center items-center w-full space-x-4 mt-4 md:space-x-0 lg:space-x-0 md:block lg:block">
         <SocialLoginButton :provider="'github'" class="md:w-full lg:w-full"/>
         <SocialLoginButton :provider="'google'" class="md:w-full lg:w-full"/>
       </div>
@@ -31,7 +31,6 @@ export default {
   },
 
   setup() {
-    console.log(userStore.getters.providersEnabled)
     const loginWithProvider = async (provider) => {
      const payload = {email: null, password: null, provider}
       return userStore.login(payload);

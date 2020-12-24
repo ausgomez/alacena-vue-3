@@ -32,7 +32,6 @@ const actions = {
     state.error = "";
     return await AuthService.login(args)
       .then(response => {
-        console.log(response);
         if (response?.error) {
           state.error = response.error.message;
           state.isBusy = false;
@@ -70,8 +69,32 @@ const actions = {
     return;
   },
   async register(args) {
-    var response = await AuthService.register(args);
-    console.log(response);
+    state.isBusy = true;
+    state.error = "";
+
+    
+
+    await AuthService.register(args).then(response => {
+      if (response?.error) {
+        state.error = response.error.message;
+        state.isBusy = false;
+        state.user = null;
+        return response.data;
+      }
+
+      if (response?.user) {
+        state.user = response.user;
+        state.error = "";
+        state.isBusy = false;
+        router.push("/");
+        return response.data;
+      }
+    }).catch(() => {
+      state.error = "Unable to Register";
+      state.isBusy = false;
+      state.user = null;
+      return;
+    });
     /*
     var response = await AuthService.userExists(args.email);
     return response;
