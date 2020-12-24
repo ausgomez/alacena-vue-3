@@ -64,25 +64,36 @@ export default {
     const validateEmail = () => {
       return (
         //eslint-disable-next-line
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.form.email) &&
-        this.form.email !== ""
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form.email) &&
+        form.email !== ""
       );
     };
 
     const validatePassword = () => {
       return (
         //eslint-disable-next-line
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.form.email) &&
-        this.form.password !== ""
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form.email) &&
+        form.password !== ""
       );
     };
 
     const confirmPassword = () => {
       return (
-        this.form.password !== "" &&
-        this.form.password === this.form.confirmPassword
+        form.password !== "" &&
+        form.password === form.confirmPassword
       );
     };
+
+    const resetForm = () => {
+        form.email = '';
+        form.password = '';
+        form.confirmPassword = '';
+    }
+
+    const onSubmit = async () => {
+        await userStore.register(form);
+        resetForm();
+    }
 
     return {
       form,
@@ -90,6 +101,8 @@ export default {
       validateEmail,
       validatePassword,
       confirmPassword,
+      resetForm,
+      onSubmit
     };
   },
 };

@@ -1,7 +1,7 @@
 <template>
-  <div class="relative">
+  <div class="relative min-h-screen">
     <Navbar class="relative" style="z-index:1000"/>
-    <div class="container mx-auto min-h-screen relative">
+    <div class="block content relative">
       <router-view />
     </div>
   </div>
@@ -24,4 +24,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+  .content {
+    min-height: calc(100vh - 86px);
+  }
+</style>
