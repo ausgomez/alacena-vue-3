@@ -14,29 +14,34 @@
           <span class="">Email Address</span>
           <input
             class="form-input mt-1 block w-full"
-            v-model="form.email"
+            v-bind:class="{ 'border-2 border-red-500': !validEmail }"
+            v-model="model.email.$model"
             placeholder="sampe@example.com"
           />
+          <error-span :property="model.email"></error-span>
         </label>
         <label class="block my-2">
           <span class="">Password</span>
           <input
             class="form-input mt-1 block w-full"
-            v-model="form.password"
+            v-model="model.password.$model"
             placeholder="********"
           />
+          <error-span :property="model.password"></error-span>
         </label>
         <label class="block my-2">
           <span class="">Confirm Password</span>
           <input
             class="form-input mt-1 block w-full"
-            v-model="form.confirmPassword"
+            v-model="model.confirmPassword.$model"
             placeholder="********"
           />
+          <error-span :property="model.confirmPassword"></error-span>
         </label>
         <button
           class="mt-4 bg-gray-700 w-full block text-white py-2 hover:bg-gray-800"
           type="submit"
+          :disabled="model.$invalid"
         >
           Register Now
         </button>
@@ -51,9 +56,16 @@
 <script>
 import { reactive } from "vue";
 import userStore from "@/stores/auth";
+import { required, minLength, email, sameAs } from "@vuelidate/validators";
+import useVuelidate from '@vuelidate/core';
+import ErrorSpan from '@/components/ErrorSpan';
 
 export default {
+  components: { ErrorSpan },
   name: "RegisterForm",
+  computed: {
+    ErrorSpan
+  },
   setup() {
     const form = reactive({
       email: "",
@@ -61,48 +73,31 @@ export default {
       confirmPassword: "",
     });
 
-    const validateEmail = () => {
-      return (
-        //eslint-disable-next-line
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form.email) &&
-        form.email !== ""
-      );
+    const rules = {
+      email: { required, email },
+      password: { required, minLength: minLength(6) },
+      confirmPassword: { required, minLength: minLength(6), sameAsPassword: sameAs('password') },
     };
 
-    const validatePassword = () => {
-      return (
-        //eslint-disable-next-line
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form.email) &&
-        form.password !== ""
-      );
-    };
-
-    const confirmPassword = () => {
-      return (
-        form.password !== "" &&
-        form.password === form.confirmPassword
-      );
-    };
+    const model = useVuelidate(rules, form);
 
     const resetForm = () => {
-        form.email = '';
-        form.password = '';
-        form.confirmPassword = '';
-    }
+      form.email = "";
+      form.password = "";
+      form.confirmPassword = "";
+    };
 
     const onSubmit = async () => {
-        await userStore.register(form);
-        resetForm();
-    }
+      await userStore.register(form);
+      resetForm();
+    };
 
     return {
       form,
       userStore,
-      validateEmail,
-      validatePassword,
-      confirmPassword,
       resetForm,
-      onSubmit
+      onSubmit,
+      model
     };
   },
 };

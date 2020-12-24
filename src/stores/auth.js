@@ -68,6 +68,9 @@ const actions = {
 
     router.push("/");
     return;
+  },
+  async register(args) {
+    return args;
   }
 };
 
