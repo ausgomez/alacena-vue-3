@@ -70,7 +70,12 @@ const actions = {
     return;
   },
   async register(args) {
-    return args;
+    var response = await AuthService.register(args);
+    console.log(response);
+    /*
+    var response = await AuthService.userExists(args.email);
+    return response;
+    */
   }
 };
 

@@ -30,5 +30,23 @@ export const AuthService = {
     if (error) {
       throw error;
     }
+  },
+
+  async userExists(email) {
+    let { data, error } = await supabase 
+      .from('users')
+      .select('user_id, name')
+      .eq('email', email)
+
+    console.log(data, error);
+
+    return  {
+      data, error
+    };
+  },
+
+  async register(args) {
+    const { email, password } = args;
+    return await supabase.auth.signUp({email, password});
   }
 };

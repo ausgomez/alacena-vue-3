@@ -9,12 +9,21 @@
       >
         <section class="my-4 text-center">
           <h2 class="block w-full text-2xl font-semibold">Register</h2>
+          <div class=" text-red my-2">{{ userStore.state.error }}</div>
         </section>
+        <label class="block my-2">
+          <span class="">Your Name</span>
+          <input
+            class="form-input mt-1 block w-full"
+            v-model="model.name.$model"
+            placeholder="John Doe"
+          />
+          <error-span :property="model.name"></error-span>
+        </label>
         <label class="block my-2">
           <span class="">Email Address</span>
           <input
             class="form-input mt-1 block w-full"
-            v-bind:class="{ 'border-2 border-red-500': !validEmail }"
             v-model="model.email.$model"
             placeholder="sampe@example.com"
           />
@@ -41,7 +50,6 @@
         <button
           class="mt-4 bg-gray-700 w-full block text-white py-2 hover:bg-gray-800"
           type="submit"
-          :disabled="model.$invalid"
         >
           Register Now
         </button>
@@ -68,15 +76,17 @@ export default {
   },
   setup() {
     const form = reactive({
-      email: "",
-      password: "",
-      confirmPassword: "",
+      name: null,
+      email: null,
+      password: null,
+      confirmPassword: null,
     });
 
     const rules = {
+      name: { required, minLength: minLength(5) },
       email: { required, email },
       password: { required, minLength: minLength(6) },
-      confirmPassword: { required, minLength: minLength(6), sameAsPassword: sameAs('password') },
+      confirmPassword: { required, sameAs: sameAs('password') },
     };
 
     const model = useVuelidate(rules, form);
@@ -88,8 +98,12 @@ export default {
     };
 
     const onSubmit = async () => {
-      await userStore.register(form);
-      resetForm();
+      model.value.$validate();
+      if(model.$invalid) {
+        console.log(form);
+        await userStore.register(form);
+        resetForm();
+      }
     };
 
     return {
@@ -97,7 +111,8 @@ export default {
       userStore,
       resetForm,
       onSubmit,
-      model
+      model,
+      rules
     };
   },
 };
