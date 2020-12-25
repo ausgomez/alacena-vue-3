@@ -37,9 +37,6 @@ export const AuthService = {
       .from('users')
       .select('user_id, name')
       .eq('email', email)
-
-    console.log(data, error);
-
     return  {
       data, error
     };

@@ -9,7 +9,7 @@
       >
         <section class="my-4 text-center">
           <h2 class="block w-full text-2xl font-semibold">Register</h2>
-          <div class=" text-red my-2">{{ userStore.state.error }}</div>
+          <div class="text-red-600 my-2">{{ userStore.state.error }}</div>
         </section>
         <label class="block my-2">
           <span class="">Your Name</span>
@@ -94,10 +94,10 @@ export default {
     const model = useVuelidate(rules, form);
 
     const resetForm = () => {
-      form.email = null;
-      form.password = null;
-      form.confirmPassword = null;
-      form.name = null;
+      model.email.$reset();
+      model.name.$reset();
+      model.password.$reset();
+      model.confirmPassword.$reset();
     };
 
     const onSubmit = async () => {
@@ -105,7 +105,6 @@ export default {
       if(!model.$invalid) {
         await userStore.register(form);
         resetForm();
-        model.$reset()
       }
     };
 

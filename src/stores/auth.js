@@ -72,8 +72,16 @@ const actions = {
     state.isBusy = true;
     state.error = "";
 
-    
+    // Check if the user trying to register already exists.
+    var userExists = await AuthService.userExists(args.email);
+    if(userExists.data == null) {
+      state.error = 'User already exists with that email';
+      state.isBusy = false;
+      state.user = null;
+      return;
+    }
 
+    // Otherwise log user in.
     await AuthService.register(args).then(response => {
       if (response?.error) {
         state.error = response.error.message;
@@ -95,10 +103,6 @@ const actions = {
       state.user = null;
       return;
     });
-    /*
-    var response = await AuthService.userExists(args.email);
-    return response;
-    */
   }
 };
 
