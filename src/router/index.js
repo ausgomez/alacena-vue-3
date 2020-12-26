@@ -4,6 +4,7 @@ import About from "@/views/about.vue";
 import Login from "@/views/login.vue";
 import Register from "@/views/register.vue";
 import userStore from '@/stores/auth';
+import Builder from '@/views/builder';
 
 const routes = [
   {
@@ -12,6 +13,14 @@ const routes = [
     component: Home,
     meta: {
       requiresAuth: true
+    }
+  },
+  {
+    path: "/builder",
+    name: "Builder",
+    component: Builder,
+    meta: {
+      requiresAuth: false
     }
   },
   {
@@ -27,7 +36,7 @@ const routes = [
     name: "Login",
     component: Login,
     beforeEnter(to, from, next) {
-      if(userStore.getters.isLoggedIn) next('/')
+      if (userStore.getters.isLoggedIn) next('/')
       else next();
     }
   }, {
@@ -35,7 +44,7 @@ const routes = [
     name: 'Register',
     component: Register,
     beforeEnter(to, from, next) {
-      if(userStore.getters.isLoggedIn) next('/')
+      if (userStore.getters.isLoggedIn) next('/')
       else next();
     }
   }
@@ -48,7 +57,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if(!userStore.getters.isLoggedIn && requiresAuth) {
+  if (!userStore.getters.isLoggedIn && requiresAuth) {
     next({ path: '/login', query: { redirect: to.fullPath } })
   } else {
     next();
