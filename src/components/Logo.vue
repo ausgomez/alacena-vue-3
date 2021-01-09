@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="w-32">
     <router-link to="/" class="text-3xl font-bold">
-      <span class="text-gray-700">alacena</span><span class="text-red-500">.io</span>
+      <img src="/images/Alacena.png" alt="" />
     </router-link>
   </div>
 </template>

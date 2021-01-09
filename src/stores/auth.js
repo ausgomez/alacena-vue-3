@@ -74,7 +74,7 @@ const actions = {
 
     // Check if the user trying to register already exists.
     var userExists = await AuthService.userExists(args.email);
-    if(userExists.data == null) {
+    if (userExists.data == null) {
       state.error = 'User already exists with that email';
       state.isBusy = false;
       state.user = null;
