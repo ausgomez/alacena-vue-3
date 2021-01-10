@@ -5,6 +5,7 @@ import Login from "@/views/login.vue";
 import Register from "@/views/register.vue";
 import userStore from '@/stores/auth';
 import Builder from '@/views/builder';
+import Recipe from '@/views/recipe';
 
 const routes = [
   {
@@ -12,7 +13,15 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/recipe/:id",
+    name: "Recipe",
+    component: Recipe,
+    meta: {
+      requiresAuth: false
     }
   },
   {
@@ -28,7 +37,7 @@ const routes = [
     name: "About",
     component: About,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-72 w-60 flex items-center justify-center m-3">
+  <router-link :to="`/recipe/${recipe.id}`" class="h-80 w-60 flex items-center justify-center m-3">
     <div
       class="w-full flex justify-center items-center bg-black rounded-3xl shadow-lg h-full bg-local overflow-hidden"
       :style="`background-image: url(${recipe.image}); background-size: cover;`"
@@ -17,7 +17,7 @@
         </ul>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

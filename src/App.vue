@@ -1,11 +1,15 @@
 <template>
-  <div class="flex flex-col">
-    <Logo class="place-self-center my-4" />
-    <div class="container">
-      <router-view />
+  <div>
+    <div class="flex flex-col relative">
+      <Logo class="place-self-center my-4" />
+      <div class="container">
+        <router-view />
+      </div>
+    </div>
+    <div class="absolute w-full bg-green-400">
+      <Navbar style="z-index:1000" />
     </div>
   </div>
-  <Navbar class="fixed bottom-0 w-full" style="z-index:1000" />
 </template>
 
 <script>
