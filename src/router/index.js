@@ -6,12 +6,21 @@ import Register from "@/views/register.vue";
 import userStore from '@/stores/auth';
 import Builder from '@/views/builder';
 import Recipe from '@/views/recipe';
+import Saved from '@/views/saved'
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/saved",
+    name: "Saved",
+    component: Saved,
     meta: {
       requiresAuth: false
     }

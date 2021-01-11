@@ -4,6 +4,7 @@
       <Logo class="place-self-center my-4" />
       <div class="container">
         <router-view />
+        <Footer />
       </div>
     </div>
     <div class="absolute w-full bg-green-400">
@@ -15,6 +16,7 @@
 <script>
 import Navbar from "@/components/Navbar"
 import userStore from "@/stores/auth"
+import Footer from "@/components/Footer"
 import { onMounted } from "vue"
 import Logo from "@/components/Logo"
 
@@ -23,9 +25,18 @@ export default {
   components: {
     Navbar,
     Logo,
+    Footer,
   },
   setup() {
-    onMounted(() => userStore.getUser())
+    onMounted(() => {
+      userStore.getUser()
+
+      let likedRecipes = localStorage.getItem("likedRecipes")
+
+      if (likedRecipes == undefined || likedRecipes == "") {
+        localStorage.setItem("likedRecipes", JSON.stringify([]))
+      }
+    })
     return { userStore }
   },
 }

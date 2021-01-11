@@ -8,7 +8,7 @@
         <router-link to="/builder"><i class="fas fa-cookie-bite"></i> Build </router-link>
       </li>
       <li :class="`${index === 2 ? 'active' : ''} p-2 rounded-full font-normal`" @click="index = 2">
-        <router-link to="/profile"><i class="far fa-user"></i> Profile </router-link>
+        <router-link to="/saved"><i class="far fa-heart"></i> Saved </router-link>
       </li>
     </ul>
   </nav>
