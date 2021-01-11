@@ -1,11 +1,18 @@
 <template>
   <div class="flex flex-col mx-6 space-y-7 text-xl">
     <p class="text-white font-medium">What do you want to cook today?</p>
-    <input
-      type="text"
-      class="p-6 rounded-lg h-8 text-gray-200 placeholder-gray-500"
-      placeholder="&#x1F50D; Search for recipes"
-    />
+
+    <div class="flex space-x-3">
+      <input
+        type="text"
+        class="p-6 rounded-lg h-8 text-gray-200 placeholder-gray-500 w-5/6"
+        placeholder="&#x1F50D; Search for recipes"
+        v-model="query"
+      />
+      <button @click="searchQuery" class="w-1/6 rounded-lg bg-yellow-500 text-white ">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
 
     <ul class="flex justify-around text-yellow-500" style="">
       <li class="flex flex-col items-center" @click="getNewest">
@@ -49,9 +56,28 @@ export default {
     const index = ref(-1)
     const loading = ref(false)
 
-    // const click = () => {
-    //   state.user = { email: "whatever@gmail.com" }
-    // }
+    const query = ref("")
+
+    const searchQuery = () => {
+      index.value = 2
+      loading.value = true
+
+      recipes.value = []
+
+      axios
+        .get("https://api.spoonacular.com/recipes/complexSearch", {
+          params: {
+            query: query.value,
+            apiKey: process.env.VUE_APP_SPOONACULAR_API,
+            number: 10,
+          },
+        })
+        .then((res) => {
+          recipes.value = res.data.results
+          loading.value = false
+        })
+        .catch((err) => console.error(err))
+    }
 
     const getNewest = async () => {
       if (index.value === 0) return
@@ -91,6 +117,7 @@ export default {
     }
 
     const exploreMore = async () => {
+      query.value = ""
       if (index.value === 2) return
       loading.value = true
       index.value = 2
@@ -113,7 +140,7 @@ export default {
       index.value = 0
     })
 
-    return { state, recipes, index, getNewest, getBest, exploreMore, loading }
+    return { state, recipes, index, getNewest, getBest, exploreMore, loading, query, searchQuery }
   },
 }
 </script>
