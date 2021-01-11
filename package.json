@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "serve -s dist -l tcp://0.0.0.0:${PORT:-8080} -n",
+    "start": "npx serve -s dist -l tcp://0.0.0.0:${PORT:-8080} -n",
     "serve2": "vue-cli-service serve",
-    "serve": "vue-cli-service build",
+    "serve": "vue-cli-service build `",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
