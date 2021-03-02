@@ -34,7 +34,7 @@ export default {
         localStorage.setItem("likedRecipes", JSON.stringify([]))
       }
     })
-    return { userStore }
+    return {}
   },
 }
 </script>
