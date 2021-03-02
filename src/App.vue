@@ -15,7 +15,6 @@
 
 <script>
 import Navbar from "@/components/Navbar"
-import userStore from "@/stores/auth"
 import Footer from "@/components/Footer"
 import { onMounted } from "vue"
 import Logo from "@/components/Logo"
@@ -29,8 +28,6 @@ export default {
   },
   setup() {
     onMounted(() => {
-      userStore.getUser()
-
       let likedRecipes = localStorage.getItem("likedRecipes")
 
       if (likedRecipes == undefined || likedRecipes == "") {
