@@ -14,7 +14,7 @@ The project is using Vue.js 3, I wanted to give it a try since I have only used 
 
 ## Preview online
 
-[link](https://cook.auscode.me/)
+[link](https://alacena.netlify.app/)
 
 ## DEV.TO POST
 
